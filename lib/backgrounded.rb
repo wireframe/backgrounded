@@ -1,15 +1,15 @@
-module BackgroundModel
+module Backgrounded
   def self.included(base)
     base.extend(ClassMethods)
   end
 
   module ClassMethods
-    def background_model(method)
+    def backgrounded(method)
       define_method "#{method.to_s}_in_background" do |*args|
         self.send method, *args
       end
-      include BackgroundModel::InstanceMethods
-      extend BackgroundModel::SingletonMethods
+      include Backgrounded::InstanceMethods
+      extend Backgrounded::SingletonMethods
     end
   end
 
@@ -20,4 +20,4 @@ module BackgroundModel
   end
 end
 
-Object.send(:include, BackgroundModel)
+Object.send(:include, Backgrounded)

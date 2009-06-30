@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class User
-  background_model :do_stuff
+  backgrounded :do_stuff
 
   def do_stuff
   end
 end
 
-class BackgroundModelTest < Test::Unit::TestCase
+class BackgroundedTest < Test::Unit::TestCase
   should "execute method in background" do
     user = User.new
     user.expects(:do_stuff)
