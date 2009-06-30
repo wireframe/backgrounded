@@ -1,6 +1,22 @@
-= background_model
+= backgrounded
 
-Description goes here.
+Simple API for running model methods in the background
+
+= Installation
+
+= Usage
+
+  #declaration
+  class User
+    backgrounded :do_stuff
+    def do_stuff
+      # do all your work here
+    end
+  end
+
+  #usage
+  user = User.new
+  user.do_stuff_in_background
 
 == Copyright
 
