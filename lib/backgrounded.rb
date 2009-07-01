@@ -13,6 +13,16 @@ module Backgrounded
         object.send method, *args
       end
     end
+
+    # passes the job to bj by serializing the options and invoking the object's method through script/runner
+    # see http://github.com/github/bj/tree/master
+    class BackgroundJobHandler
+      require 'bj'
+      def run(object, method, *args)
+        #TODO: howto marshall args to the command line?
+        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}(#{*args})"
+      end
+    end
   end
 
   module Model
