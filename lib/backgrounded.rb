@@ -19,8 +19,8 @@ module Backgrounded
     class BackgroundJobHandler
       require 'bj'
       def run(object, method, *args)
-        #TODO: howto marshall args to the command line?
-        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}(#{*args})"
+        params = args.collect{ |arg| arg.inspect }.join(',')
+        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}(#{params})"
       end
     end
   end

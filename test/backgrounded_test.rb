@@ -7,6 +7,13 @@ class User
   end
 end
 
+class Person
+  backgrounded :do_stuff
+
+  def do_stuff(name, place, location)
+  end
+end
+
 class Post
   backgrounded :do_stuff, :notify_users
 
@@ -24,6 +31,16 @@ class BackgroundedTest < Test::Unit::TestCase
     should "execute method in background" do
       @user.expects(:do_stuff)
       @user.do_stuff_in_background
+    end
+  end
+
+  context 'an object with a backgrounded method that accepts parameters' do
+    setup do
+      @person = Person.new
+    end
+    should "execute method with parameters" do
+      @person.expects(:do_stuff).with('ryan', 2, 3)
+      @person.do_stuff_in_background('ryan', 2, 3)
     end
   end
 
