@@ -9,8 +9,8 @@ module Backgrounded
     #simple handler to process synchronously and not actually in the background
     #useful for testing
     class InprocessHandler
-      def request(object, method, *args)
-        object.send method, *args
+      def request(object, method)
+        object.send method
       end
     end
 
@@ -18,9 +18,8 @@ module Backgrounded
     # see http://github.com/github/bj/tree/master
     class BackgroundJobHandler
       require 'bj'
-      def run(object, method, *args)
-        params = args.collect{ |arg| arg.inspect }.join(',')
-        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}(#{params})"
+      def request(object, method)
+        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}"
       end
     end
   end
@@ -33,8 +32,8 @@ module Backgrounded
     module ClassMethods
       def backgrounded(*methods)
         methods.each do |method|
-          define_method "#{method.to_s}_in_background" do |*args|
-            Backgrounded.handler.request(self, method, *args)
+          define_method "#{method.to_s}_in_background" do
+            Backgrounded.handler.request(self, method)
           end
         end
         include Backgrounded::Model::InstanceMethods
