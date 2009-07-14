@@ -22,6 +22,26 @@ module Backgrounded
         Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}"
       end
     end
+    
+    # use amqp client (bunny) to publish requests
+    # see http://github.com/celldee/bunny/tree/master
+    class BunnyQueueHandler
+      require 'bunny'
+      def initialize(queue)
+        @queue = queue
+      end
+      def request(object, method)
+        hash = {:object => object.class, :id => object.id, :method => method}
+        @queue.publish(YAML::dump(hash), :persistent => true)
+      end
+
+      # poll for new requests on the queue
+      def poll
+        value = @queue.pop
+        value == :queue_empty ? nil : YAML::load(value)
+        value[:object].constantize.find(value[:id]).send(value[:method]) if value
+      end
+    end
   end
 
   module Model
