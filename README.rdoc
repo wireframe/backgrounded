@@ -2,8 +2,6 @@
 
 Simple API for running model methods in the background
 
-= Installation
-
 = Usage
 
   #declaration
@@ -17,6 +15,17 @@ Simple API for running model methods in the background
   #usage
   user = User.new
   user.do_stuff_in_background
+
+= Installation
+
+Command line installation
+
+  sudo gem install wireframe-backgrounded
+
+Rails environment.rb configuration
+
+  config.gem 'wireframe-backgrounded', :source => 'http://gems.github.com', :lib => 'backgrounded'
+
 
 == Copyright
 
