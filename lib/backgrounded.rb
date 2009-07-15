@@ -19,7 +19,7 @@ module Backgrounded
     class BackgroundJobHandler
       require 'bj'
       def request(object, method)
-        Bj.submit "./script/runner #{object.class}.find(#{object.id}).#{method}"
+        Bj.submit "./script/runner \"#{object.class}.find(#{object.id}).#{method}\""
       end
     end
     
