@@ -15,13 +15,6 @@ Simple API for running model methods in the background
   #usage
   user = User.new
   user.do_stuff_backgrounded
-  
-= Configuration
-
-Packaged with Delayed Job handler out of the box, but can support any custom handler to perform background work.
-
-  # rails config/environment.rb
-  Backgrounded.handler = DelayedJobHandler.new
 
 = Installation
 
@@ -33,6 +26,12 @@ Rails environment.rb configuration
 
   config.gem 'wireframe-backgrounded', :source => 'http://gems.github.com', :lib => 'backgrounded'
 
+= Configuration
+
+Packaged with Delayed Job handler out of the box, but can support any custom handler to perform background work.
+
+  # rails config/initializers/backgrounded.rb
+  Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
 
 == Copyright
 
