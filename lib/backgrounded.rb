@@ -22,6 +22,15 @@ module Backgrounded
         Bj.submit "./script/runner \"#{object.class}.find(#{object.id}).#{method}\""
       end
     end
+
+    # invoke the operation in the background using delayed job
+    # see http://github.com/tobi/delayed_job/tree/master
+    class DelayedJobHandler
+      require 'delayed_job'
+      def request(object, method)
+        object.send_later(method.to_sym)
+      end
+    end
     
     # use amqp client (bunny) to publish requests
     # see http://github.com/celldee/bunny/tree/master
