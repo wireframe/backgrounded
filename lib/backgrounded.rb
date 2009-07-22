@@ -14,41 +14,12 @@ module Backgrounded
       end
     end
 
-    # passes the job to bj by serializing the options and invoking the object's method through script/runner
-    # see http://github.com/github/bj/tree/master
-    class BackgroundJobHandler
-      require 'bj'
-      def request(object, method)
-        Bj.submit "./script/runner \"#{object.class}.find(#{object.id}).#{method}\""
-      end
-    end
-
     # invoke the operation in the background using delayed job
     # see http://github.com/tobi/delayed_job/tree/master
     class DelayedJobHandler
       require 'delayed_job'
       def request(object, method)
         object.send_later(method.to_sym)
-      end
-    end
-    
-    # use amqp client (bunny) to publish requests
-    # see http://github.com/celldee/bunny/tree/master
-    class BunnyQueueHandler
-      require 'bunny'
-      def initialize(queue)
-        @queue = queue
-      end
-      def request(object, method)
-        hash = {:object => object.class, :id => object.id, :method => method}
-        @queue.publish(YAML::dump(hash), :persistent => true)
-      end
-
-      # poll for new requests on the queue
-      def poll
-        value = @queue.pop
-        value == :queue_empty ? nil : YAML::load(value)
-        value[:object].constantize.find(value[:id]).send(value[:method]) if value
       end
     end
   end
