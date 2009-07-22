@@ -61,7 +61,7 @@ module Backgrounded
     module ClassMethods
       def backgrounded(*methods)
         methods.each do |method|
-          define_method "#{method.to_s}_in_background" do
+          define_method "#{method.to_s}_backgrounded" do
             Backgrounded.handler.request(self, method)
           end
         end

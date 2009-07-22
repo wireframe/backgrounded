@@ -14,7 +14,7 @@ Simple API for running model methods in the background
 
   #usage
   user = User.new
-  user.do_stuff_in_background
+  user.do_stuff_backgrounded
 
 = Installation
 

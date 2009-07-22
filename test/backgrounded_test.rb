@@ -30,7 +30,7 @@ class BackgroundedTest < Test::Unit::TestCase
     end
     should "execute method in background" do
       @user.expects(:do_stuff)
-      @user.do_stuff_in_background
+      @user.do_stuff_backgrounded
     end
   end
 
@@ -40,7 +40,7 @@ class BackgroundedTest < Test::Unit::TestCase
     end
     should 'raise error if passing method parameters' do
       assert_raises ArgumentError, "method parameters are not currently supported for backgrounded methods." do
-        @person.do_stuff_in_background('ryan', 2, 3)
+        @person.do_stuff_backgrounded('ryan', 2, 3)
       end
     end
   end
@@ -51,10 +51,10 @@ class BackgroundedTest < Test::Unit::TestCase
     end
     should "execute method either method in background" do
       @post.expects(:do_stuff)
-      @post.do_stuff_in_background
+      @post.do_stuff_backgrounded
 
       @post.expects(:notify_users)
-      @post.notify_users_in_background
+      @post.notify_users_backgrounded
     end
   end
 end
