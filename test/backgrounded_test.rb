@@ -38,10 +38,9 @@ class BackgroundedTest < Test::Unit::TestCase
     setup do
       @person = Person.new
     end
-    should 'raise error if passing method parameters' do
-      assert_raises ArgumentError, "method parameters are not currently supported for backgrounded methods." do
-        @person.do_stuff_backgrounded('ryan', 2, 3)
-      end
+    should 'forward them' do
+      @person.expects(:do_stuff).with('ryan', 2, 3)
+      @person.do_stuff_backgrounded('ryan', 2, 3)
     end
   end
 

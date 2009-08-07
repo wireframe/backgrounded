@@ -5,25 +5,9 @@ module Backgrounded
   def self.handler
     @@handler ||= Backgrounded::Handler::InprocessHandler.new
   end
-  module Handler
-    #simple handler to process synchronously and not actually in the background
-    #useful for testing
-    class InprocessHandler
-      def request(object, method)
-        object.send method
-      end
-    end
-
-    # invoke the operation in the background using delayed job
-    # see http://github.com/tobi/delayed_job/tree/master
-    class DelayedJobHandler
-      require 'delayed_job'
-      def request(object, method)
-        object.send_later(method.to_sym)
-      end
-    end
-  end
-
+  
+  autoload :Handler, 'handler'
+        
   module Model
     def self.included(base)
       base.extend(ClassMethods)
@@ -32,8 +16,8 @@ module Backgrounded
     module ClassMethods
       def backgrounded(*methods)
         methods.each do |method|
-          define_method "#{method.to_s}_backgrounded" do
-            Backgrounded.handler.request(self, method)
+          define_method "#{method.to_s}_backgrounded" do |*args|
+            Backgrounded.handler.request(self, method, *args)
           end
         end
         include Backgrounded::Model::InstanceMethods
@@ -43,7 +27,7 @@ module Backgrounded
 
     module SingletonMethods
     end
-  
+
     module InstanceMethods
     end
   end
