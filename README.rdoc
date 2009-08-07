@@ -28,10 +28,15 @@ Rails environment.rb configuration
 
 = Configuration
 
-Packaged with Delayed Job handler out of the box, but can support any custom handler to perform background work.
+Packaged with both Delayed Job and JobFu handler out of the box, but can support any custom handler to perform background work.
 
   # rails config/initializers/backgrounded.rb
+  
+  # Delayed Job, see http://github.com/tobi/delayed_job/tree/master  
   Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
+  
+  # Job Fu, see http://github.com/jnstq/job_fu/tree
+  Backgrounded.handler = Backgrounded::Handler::JobFuHandler.new
 
 == Copyright
 
