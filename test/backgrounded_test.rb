@@ -23,6 +23,13 @@ class Post
   end
 end
 
+class Comment
+  backgrounded :delete_spam!
+  
+  def delete_spam!
+  end
+end
+
 class BackgroundedTest < Test::Unit::TestCase
   context 'an object with a single backgrounded method' do
     setup do
@@ -41,6 +48,15 @@ class BackgroundedTest < Test::Unit::TestCase
     should 'forward them' do
       @person.expects(:do_stuff).with('ryan', 2, 3)
       @person.do_stuff_backgrounded('ryan', 2, 3)
+    end
+  end
+  
+  context 'an object with a backgrounded method included punctuation' do
+    setup do
+      @comment = Comment.new
+    end
+    should 'move punctuation to the end of the new method' do
+      assert @comment.respond_to?(:'delete_spam_backgrounded!')
     end
   end
 
