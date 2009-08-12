@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{backgrounded}
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Sonnek"]
-  s.date = %q{2009-07-21}
+  s.date = %q{2009-08-11}
   s.email = %q{ryan.sonnek@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -21,6 +21,10 @@ Gem::Specification.new do |s|
      "VERSION.yml",
      "backgrounded.gemspec",
      "lib/backgrounded.rb",
+     "lib/handler.rb",
+     "lib/handler/delayed_job_handler.rb",
+     "lib/handler/inprocess_handler.rb",
+     "lib/handler/job_fu_handler.rb",
      "test/backgrounded_test.rb",
      "test/test_helper.rb"
   ]
