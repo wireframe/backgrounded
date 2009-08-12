@@ -1,6 +1,11 @@
-= backgrounded
+= Backgrounded
 
-Simple API for running model methods in the background
+Background processing done right.
+
+= Features
+* clean and concise API
+* testable
+* integrates with any background processing framework (DelayedJob, JobFu, Workling, etc)
 
 = Usage
 
@@ -28,15 +33,35 @@ Rails environment.rb configuration
 
 = Configuration
 
-Packaged with both Delayed Job and JobFu handler out of the box, but can support any custom handler to perform background work.
+Backgrounded provides a thin wrapper around any background processing framework that implements the Backgrounded handler API.  This makes it trivial to swap out processing frameworks with no impact on your code.
+
+= DelayedJob
+
+An implementation for DelayedJob is packaged directly with Backgrounded for a slick out of the box experience.
+see http://github.com/tobi/delayed_job/tree/master
 
   # rails config/initializers/backgrounded.rb
-  
-  # Delayed Job, see http://github.com/tobi/delayed_job/tree/master  
   Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
-  
-  # Job Fu, see http://github.com/jnstq/job_fu/tree
-  Backgrounded.handler = Backgrounded::Handler::JobFuHandler.new
+
+= JobFu
+
+Developers using the JobFu library have it easy as well!
+see http://github.com/jnstq/job_fu/tree
+
+  # rails config/initializers/backgrounded.rb
+  Backgrounded.handler = JobFu::Backgrounded::Handler.new
+
+= Custom Handlers
+
+It's trivial to write your own plugin for processing Backgrounded events! 
+
+  # rails config/initializers/backgrounded.rb
+  class MyHandler
+    def request(object, method, *args)
+      #process the call however you want!
+    end
+  end
+  Backgrounded.handler = MyHandler.new
 
 == Copyright
 
