@@ -40,7 +40,7 @@ Backgrounded provides a thin wrapper around any background processing framework 
 An implementation for DelayedJob is packaged directly with Backgrounded for a slick out of the box experience.
 see http://github.com/tobi/delayed_job/tree/master
 
-  # rails config/initializers/backgrounded.rb
+  # config/initializers/backgrounded.rb
   Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
 
 = JobFu
@@ -48,14 +48,14 @@ see http://github.com/tobi/delayed_job/tree/master
 Developers using the JobFu library have it easy as well!
 see http://github.com/jnstq/job_fu/tree
 
-  # rails config/initializers/backgrounded.rb
+  # config/initializers/backgrounded.rb
   Backgrounded.handler = JobFu::Backgrounded::Handler.new
 
 = Custom Handlers
 
 It's trivial to write your own plugin for processing Backgrounded events! 
 
-  # rails config/initializers/backgrounded.rb
+  # config/initializers/backgrounded.rb
   class MyHandler
     def request(object, method, *args)
       #process the call however you want!
