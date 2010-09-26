@@ -17,8 +17,6 @@ end
 class BackgroundedTest < Test::Unit::TestCase
   context 'when backgrounded is configured with resque' do
     setup do
-      #run redis-server /usr/local/etc/redis.conf
-      # Resque.redis = 'localhost:6379'
       Resque.reset!
       @handler = Backgrounded::Handler::ResqueHandler.new
       Backgrounded.handler = @handler
@@ -39,12 +37,6 @@ class BackgroundedTest < Test::Unit::TestCase
           should "invoke method on user object" do
             User.any_instance.expects(:do_stuff)
             Resque.run!
-        
-            # worker = Resque::Worker.new('backgrounded')
-            # worker.verbose = true
-            # worker.very_verbose = true
-            # worker.log "Starting worker #{worker}"
-            # worker.work(1)
           end
         end
       end
