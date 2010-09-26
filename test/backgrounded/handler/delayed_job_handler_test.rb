@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 require 'backgrounded/handler/delayed_job_handler'
+require 'delayed/backend/active_record'
 
 ActiveRecord::Schema.define(:version => 1) do
   create_table :users, :force => true do |t|
@@ -40,9 +41,9 @@ class DelayedJobHandlerTest < Test::Unit::TestCase
         setup do
           @user.do_stuff_backgrounded
         end
-        should_create Delayed::Job
+        should_create Delayed::Backend::ActiveRecord::Job
         should 'create delayed job' do
-          job = Delayed::Job.last
+          job = Delayed::Backend::ActiveRecord::Job.last
           puts job.inspect
         end
       end
