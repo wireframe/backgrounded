@@ -1,13 +1,12 @@
-require 'activesupport'
+require 'active_support/all'
+require 'handler/inprocess_handler'
 
 module Backgrounded
   mattr_accessor :handler
   def self.handler
     @@handler ||= Backgrounded::Handler::InprocessHandler.new
   end
-  
-  autoload :Handler, 'handler'
-        
+
   module Model
     def self.included(base)
       base.extend(ClassMethods)
