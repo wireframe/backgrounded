@@ -5,7 +5,7 @@ Background processing done right.
 = Features
 * clean and concise API
 * testable
-* integrates with any background processing framework (DelayedJob, JobFu, Workling, etc)
+* integrates with any background processing framework (DelayedJob, Resque, JobFu, Workling, etc)
 
 = Usage
 
@@ -25,11 +25,15 @@ Background processing done right.
 
 Command line installation
 
-  sudo gem install wireframe-backgrounded
+  sudo gem install backgrounded
 
 Rails environment.rb configuration
 
-  config.gem 'wireframe-backgrounded', :source => 'http://gems.github.com', :lib => 'backgrounded'
+  config.gem 'backgrounded'
+
+Gemfile configuration
+
+  gem 'backgrounded'
 
 = Configuration
 
@@ -41,7 +45,17 @@ An implementation for DelayedJob is packaged directly with Backgrounded for a sl
 see http://github.com/tobi/delayed_job/tree/master
 
   # config/initializers/backgrounded.rb
+  require 'backgrounded/handler/delayed_job_handler'
   Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
+
+= Resque
+
+An implementation for Resque is packaged directly with Backgrounded for a slick out of the box experience.
+see http://github.com/defunkt/resque/
+
+  # config/initializers/backgrounded.rb
+  require 'backgrounded/handler/resque_handler'
+  Backgrounded.handler = Backgrounded::Handler::ResqueHandler.new
 
 = JobFu
 

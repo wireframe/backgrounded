@@ -1,5 +1,5 @@
-require File.join(File.dirname(__FILE__), '..', 'test_helper')
-require 'handler/resque_handler'
+require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
+require 'backgrounded/handler/resque_handler'
 
 ActiveRecord::Schema.define(:version => 1) do
   create_table :users, :force => true do |t|
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   end
 end
 
-class BackgroundedTest < Test::Unit::TestCase
+class ResqueHandlerTest < Test::Unit::TestCase
   context 'when backgrounded is configured with resque' do
     setup do
       Resque.reset!

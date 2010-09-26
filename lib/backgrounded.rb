@@ -1,5 +1,5 @@
 require 'active_support/all'
-require 'handler/inprocess_handler'
+require 'backgrounded/handler/inprocess_handler'
 
 module Backgrounded
   mattr_accessor :handler
