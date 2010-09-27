@@ -31,7 +31,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           @user.do_stuff_backgrounded
         end
         should "enqueue job to resque" do
-          assert_queued @handler
+          assert_queued Backgrounded::Handler::ResqueHandler
         end
         context "running background job" do
           should "invoke method on user object" do
