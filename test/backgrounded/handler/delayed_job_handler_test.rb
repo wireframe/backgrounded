@@ -29,6 +29,7 @@ end
 class DelayedJobHandlerTest < Test::Unit::TestCase
   context 'when backgrounded is configured with delayed_job' do
     setup do
+      Delayed::Worker.backend = :active_record
       @handler = Backgrounded::Handler::DelayedJobHandler.new
       Backgrounded.handler = @handler
     end
@@ -41,9 +42,9 @@ class DelayedJobHandlerTest < Test::Unit::TestCase
         setup do
           @user.do_stuff_backgrounded
         end
-        should_create Delayed::Backend::ActiveRecord::Job
+        should_create Delayed::Job
         should 'create delayed job' do
-          job = Delayed::Backend::ActiveRecord::Job.last
+          job = Delayed::Job.last
           puts job.inspect
         end
       end
