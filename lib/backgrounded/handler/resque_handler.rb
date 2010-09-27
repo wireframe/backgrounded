@@ -7,7 +7,7 @@ module Backgrounded
       def request(object, method, *args)
         Resque.enqueue(ResqueHandler, object.class.name, object.id, method, *args)
       end
-      def queue
+      def self.queue
         'backgrounded'
       end
 
