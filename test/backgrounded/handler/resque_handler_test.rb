@@ -43,6 +43,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
         end
         should "enqueue job to resque" do
           assert_queued Backgrounded::Handler::ResqueHandler
+          assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
         end
         context "running background job" do
           should "invoke method on user object" do
@@ -62,6 +63,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           end
           should "use configured queue" do
             assert_equal 'important', Backgrounded::Handler::ResqueHandler.queue
+            assert_equal 'important', Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
           end
         end
       end
