@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{backgrounded}
-  s.version = "0.5.0"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Sonnek"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/backgrounded/handler/delayed_job_handler.rb",
      "lib/backgrounded/handler/inprocess_handler.rb",
      "lib/backgrounded/handler/resque_handler.rb",
+     "lib/backgrounded/handler/workling_handler.rb",
      "test/backgrounded/handler/delayed_job_handler_test.rb",
      "test/backgrounded/handler/resque_handler_test.rb",
      "test/backgrounded_test.rb",
