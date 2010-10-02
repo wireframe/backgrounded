@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.join(File.dirname(__FILE__), 'test_helper')
 
 class User
   backgrounded :do_stuff
@@ -27,6 +27,13 @@ class Comment
   backgrounded :delete_spam!
   
   def delete_spam!
+  end
+end
+
+class Dog
+  backgrounded :bark => {:priority => :low}
+
+  def bark
   end
 end
 
@@ -70,6 +77,15 @@ class BackgroundedTest < Test::Unit::TestCase
 
       @post.expects(:notify_users)
       @post.notify_users_backgrounded
+    end
+  end
+
+  context 'an object with backgrounded method options' do
+    setup do
+      @dog = Dog.new
+    end
+    should 'save method options for future use' do
+      assert_equal :low, @dog.backgrounded_options[:bark][:priority]
     end
   end
 end
