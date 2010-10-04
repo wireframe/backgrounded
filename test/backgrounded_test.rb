@@ -1,43 +1,44 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
-class User
-  backgrounded :do_stuff
-
-  def do_stuff
-  end
-end
-
-class Person
-  backgrounded :do_stuff
-
-  def do_stuff(name, place, location)
-  end
-end
-
-class Post
-  backgrounded :do_stuff, :notify_users
-
-  def do_stuff
-  end
-  def notify_users
-  end
-end
-
-class Comment
-  backgrounded :delete_spam!
-  
-  def delete_spam!
-  end
-end
-
-class Dog
-  backgrounded :bark => {:priority => :low}
-
-  def bark
-  end
-end
-
 class BackgroundedTest < Test::Unit::TestCase
+  
+  class User
+    backgrounded :do_stuff
+
+    def do_stuff
+    end
+  end
+
+  class Person
+    backgrounded :do_stuff
+
+    def do_stuff(name, place, location)
+    end
+  end
+
+  class Post
+    backgrounded :do_stuff, :notify_users
+
+    def do_stuff
+    end
+    def notify_users
+    end
+  end
+
+  class Comment
+    backgrounded :delete_spam!
+
+    def delete_spam!
+    end
+  end
+
+  class Dog
+    backgrounded :bark => {:priority => :low}
+
+    def bark
+    end
+  end
+
   context 'an object with a single backgrounded method' do
     setup do
       @user = User.new

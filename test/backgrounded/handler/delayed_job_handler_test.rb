@@ -19,14 +19,15 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 end
 
-class User < ActiveRecord::Base
-  backgrounded :do_stuff
-
-  def do_stuff
-  end
-end
-
 class DelayedJobHandlerTest < Test::Unit::TestCase
+
+  class User < ActiveRecord::Base
+    backgrounded :do_stuff
+
+    def do_stuff
+    end
+  end
+
   context 'when backgrounded is configured with delayed_job' do
     setup do
       Delayed::Worker.backend = :active_record

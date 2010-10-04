@@ -11,21 +11,21 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 end
 
-class User < ActiveRecord::Base
-  backgrounded :do_stuff
-
-  def do_stuff
-  end
-end
-
-class Post < ActiveRecord::Base
-  backgrounded :do_stuff => {:queue => 'important'}
-
-  def do_stuff
-  end
-end
-
 class ResqueHandlerTest < Test::Unit::TestCase
+  class User < ActiveRecord::Base
+    backgrounded :do_stuff
+
+    def do_stuff
+    end
+  end
+
+  class Post < ActiveRecord::Base
+    backgrounded :do_stuff => {:queue => 'important'}
+
+    def do_stuff
+    end
+  end
+
   context 'when backgrounded is configured with resque' do
     setup do
       Resque.reset!
