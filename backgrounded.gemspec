@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Sonnek"]
-  s.date = %q{2010-10-03}
+  s.date = %q{2010-10-04}
   s.email = %q{ryan.sonnek@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
      "lib/backgrounded/handler/workling_handler.rb",
      "test/backgrounded/handler/delayed_job_handler_test.rb",
      "test/backgrounded/handler/resque_handler_test.rb",
+     "test/backgrounded/handler/workling_handler_test.rb",
      "test/backgrounded_test.rb",
      "test/database.yml",
      "test/test_helper.rb"
@@ -42,6 +43,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/backgrounded/handler/delayed_job_handler_test.rb",
      "test/backgrounded/handler/resque_handler_test.rb",
+     "test/backgrounded/handler/workling_handler_test.rb",
      "test/backgrounded_test.rb",
      "test/test_helper.rb"
   ]
