@@ -34,20 +34,22 @@ class DelayedJobHandlerTest < Test::Unit::TestCase
       Backgrounded.handler = @handler
     end
 
-    context 'a persisted object with a single backgrounded method' do
-      setup do
-        @user = User.create
-      end
-      context "invoking backgrounded method" do
-        setup do
-          @user.do_stuff_backgrounded
-        end
-        should_create Delayed::Job
-        should 'create delayed job' do
-          job = Delayed::Job.last
-          puts job.inspect
-        end
-      end
+    should 'be configured' do
+      fail 'delayed job not recognizing activerecord config'
     end
+    # context 'a persisted object with a single backgrounded method' do
+    #   setup do
+    #     @user = User.create
+    #   end
+    #   context "invoking backgrounded method" do
+    #     setup do
+    #       @user.do_stuff_backgrounded
+    #     end
+    #     should_create Delayed::Job
+    #     should 'create delayed job' do
+    #       job = Delayed::Job.last
+    #     end
+    #   end
+    # end
   end
 end
