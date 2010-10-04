@@ -1,4 +1,4 @@
-class Backgrounded::Handler::WorklingHandler < Workling::Base
+class Backgrounded::Handler::WorklingHandler
   def request(object, method, *args)
     options = {
       :class => object.class.name,
@@ -6,9 +6,12 @@ class Backgrounded::Handler::WorklingHandler < Workling::Base
       :method => method,
       :params => args
     }
-    Backgrounded::Handler::WorklingHandler.async_perform options
+    BackgroundedWorker.async_perform options
   end
-  def perform(options = {})
-    options[:class].constantize.find(options[:id]).send(options[:method], *options[:params])
+
+  class BackgroundedWorker < Workling::Base
+    def perform(options = {})
+      options[:class].constantize.find(options[:id]).send(options[:method], *options[:params])
+    end
   end
 end
