@@ -1,5 +1,15 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
-# require 'backgrounded/handler/workling_handler'
+RAILS_DEFAULT_LOGGER = Logger.new 'foo'
+RAILS_ENV = 'test'
+require 'newrelic_rpm'
+require 'memcache'
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling')
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling', 'base')
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling', 'discovery')
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling', 'routing', 'class_and_method_routing')
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling', 'remote', 'invokers', 'threaded_poller')
+require File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'socialcast', 'vendor', 'plugins', 'workling', 'lib', 'workling', 'remote')
+require 'backgrounded/handler/workling_handler'
 
 ActiveRecord::Schema.define(:version => 1) do
   create_table :users, :force => true do |t|
@@ -22,21 +32,17 @@ class WorklingHandlerTest < Test::Unit::TestCase
       Backgrounded.handler = @handler
     end
 
-    should 'be configured' do
-      fail 'plugin not installed'
+    context 'a persisted object with a single backgrounded method' do
+      setup do
+        @user = User.create
+      end
+      context "invoking backgrounded method" do
+        setup do
+          User.any_instance.expects(:do_stuff).with('a string')
+          @user.do_stuff_backgrounded 'a string'
+        end
+        should 'dispatch through workling back to the object' do end #see expectations
+      end
     end
-    # context 'a persisted object with a single backgrounded method' do
-    #   setup do
-    #     @user = User.create
-    #   end
-    #   context "invoking backgrounded method" do
-    #     setup do
-    #       @user.do_stuff_backgrounded
-    #     end
-    #     should 'invoke workling worker' do
-    #       BackgroundedWorker.any_instance.expects(:perform)
-    #     end
-    #   end
-    # end
   end
 end
