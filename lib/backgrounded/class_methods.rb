@@ -11,7 +11,8 @@ module Backgrounded
         end
       end
       cattr_accessor :backgrounded_options
-      self.backgrounded_options = methods_with_options
+      self.backgrounded_options ||= {}
+      self.backgrounded_options.merge! methods_with_options
     end
   end
 end

@@ -39,6 +39,17 @@ class BackgroundedTest < Test::Unit::TestCase
     end
   end
 
+  class Entry
+    backgrounded :do_stuff
+    backgrounded :notify_users
+
+    def do_stuff
+    end
+    def notify_users
+    end
+  end
+
+
   context 'an object with a single backgrounded method' do
     setup do
       @user = User.new
@@ -78,6 +89,16 @@ class BackgroundedTest < Test::Unit::TestCase
 
       @post.expects(:notify_users)
       @post.notify_users_backgrounded
+    end
+  end
+
+  context 'an object with multiple backgrounded invokations' do
+    setup do
+      @post = Entry.new
+    end
+    should "setup options for both methods" do
+      assert_not_nil Entry.backgrounded_options[:do_stuff]
+      assert_not_nil Entry.backgrounded_options[:notify_users]
     end
   end
 
