@@ -49,14 +49,30 @@ class BackgroundedTest < Test::Unit::TestCase
     end
   end
 
+  class Blog
+    class << self
+      backgrounded :update_info
+      def update_info
+      end
+    end
+  end
 
   context 'an object with a single backgrounded method' do
     setup do
       @user = User.new
     end
-    should "execute method in background" do
-      @user.expects(:do_stuff)
-      @user.do_stuff_backgrounded
+    should 'define backgrounded method' do
+      assert @user.respond_to?('do_stuff_backgrounded')
+    end
+    should 'save backgrounded options for method' do
+      assert_not_nil User.backgrounded_options[:do_stuff]
+    end
+    context 'executing backgrounded method' do
+      setup do
+        @user.expects(:do_stuff)
+        @user.do_stuff_backgrounded
+      end
+      should "execute method in background" do end #see expectations
     end
   end
 
@@ -110,4 +126,20 @@ class BackgroundedTest < Test::Unit::TestCase
       assert_equal :low, @dog.backgrounded_options[:bark][:priority]
     end
   end
+
+  context 'a class with backgrounded method' do
+    should 'define backgrounded method' do
+      assert Blog.respond_to?('update_info_backgrounded')
+    end
+    should 'save backgrounded options for method' do
+      assert_not_nil Blog.backgrounded_options[:update_info]
+    end
+    context 'invoking backgrounded method' do
+        setup do
+          Blog.expects(:update_info)
+          Blog.update_info_backgrounded
+        end
+        should 'invoke class method' do end #see expectations
+      end
+    end
 end

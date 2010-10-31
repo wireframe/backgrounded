@@ -26,11 +26,39 @@ class ResqueHandlerTest < Test::Unit::TestCase
     end
   end
 
+  class Blog < ActiveRecord::Base
+    class << self
+      backgrounded :do_stuff
+
+      def do_stuff
+      end
+    end
+  end
+
   context 'when backgrounded is configured with resque' do
     setup do
       Resque.reset!
       @handler = Backgrounded::Handler::ResqueHandler.new
       Backgrounded.handler = @handler
+    end
+
+    context 'a class level backgrounded method' do
+      context "invoking backgrounded method" do
+        setup do
+          Blog.do_stuff_backgrounded
+        end
+        should "enqueue job to resque" do
+          assert_queued Backgrounded::Handler::ResqueHandler
+          assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
+        end
+        context "running background job" do
+          setup do
+            Blog.expects(:do_stuff)
+            Resque.run!
+          end
+          should "invoke method on class" do end #see expectations
+        end
+      end
     end
 
     context 'a persisted object with a single backgrounded method' do

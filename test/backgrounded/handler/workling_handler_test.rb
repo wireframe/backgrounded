@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
-RAILS_DEFAULT_LOGGER = Logger.new 'foo'
+RAILS_DEFAULT_LOGGER = Logger.new STDOUT
 RAILS_ENV = 'test'
 require 'newrelic_rpm'
 require 'memcache'
@@ -26,6 +26,15 @@ class WorklingHandlerTest < Test::Unit::TestCase
     end
   end
 
+  class Post < ActiveRecord::Base
+    class << self
+      backgrounded :do_stuff
+
+      def do_stuff
+      end
+    end
+  end
+
   context 'when backgrounded is configured with workling' do
     setup do
       @handler = Backgrounded::Handler::WorklingHandler.new
@@ -40,6 +49,16 @@ class WorklingHandlerTest < Test::Unit::TestCase
         setup do
           User.any_instance.expects(:do_stuff).with('a string')
           @user.do_stuff_backgrounded 'a string'
+        end
+        should 'dispatch through workling back to the object' do end #see expectations
+      end
+    end
+
+    context 'a class level backgrounded method' do
+      context "invoking backgrounded method" do
+        setup do
+          Post.expects(:do_stuff).with('a string')
+          Post.do_stuff_backgrounded 'a string'
         end
         should 'dispatch through workling back to the object' do end #see expectations
       end
