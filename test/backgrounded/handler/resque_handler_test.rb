@@ -92,6 +92,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           should "use configured queue" do
             assert_equal 'important', Backgrounded::Handler::ResqueHandler.queue
             assert_equal 'important', Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
+            assert_equal 1, Resque.queue('important').length
           end
         end
       end
