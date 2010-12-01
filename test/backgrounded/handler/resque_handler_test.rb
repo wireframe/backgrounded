@@ -70,7 +70,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           @user.do_stuff_backgrounded
         end
         should "enqueue job to resque" do
-          assert_queued Backgrounded::Handler::ResqueHandler
+          assert_queued Backgrounded::Handler::ResqueHandler, [User.to_s, @user.id, :do_stuff]
           assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
         end
         context "running background job" do
