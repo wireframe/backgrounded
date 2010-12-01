@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'test_helper')
 require 'backgrounded/handler/resque_handler'
+require 'resque_unit'
 
 ActiveRecord::Schema.define(:version => 1) do
   create_table :users, :force => true do |t|
@@ -48,7 +49,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           Blog.do_stuff_backgrounded
         end
         should "enqueue job to resque" do
-          assert_queued Backgrounded::Handler::ResqueHandler, [Blog.to_s, -1, :do_stuff]
+          assert_queued Backgrounded::Handler::ResqueHandler, [Blog.to_s, -1, 'do_stuff']
           assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
         end
         context "running background job" do
@@ -70,7 +71,7 @@ class ResqueHandlerTest < Test::Unit::TestCase
           @user.do_stuff_backgrounded
         end
         should "enqueue job to resque" do
-          assert_queued Backgrounded::Handler::ResqueHandler, [User.to_s, @user.id, :do_stuff]
+          assert_queued Backgrounded::Handler::ResqueHandler, [User.to_s, @user.id, 'do_stuff']
           assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
         end
         context "running background job" do

@@ -12,7 +12,7 @@ begin
     gem.add_runtime_dependency "activerecord", ">= 2.2.3"
     gem.add_runtime_dependency "activesupport", ">= 2.2.3"
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    gem.add_development_dependency 'resque_unit', ">= 0"
+    gem.add_development_dependency 'resque_unit', ">= 0.3.1"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
