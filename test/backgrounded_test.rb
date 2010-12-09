@@ -69,10 +69,13 @@ class BackgroundedTest < Test::Unit::TestCase
     end
     context 'executing backgrounded method' do
       setup do
-        @user.expects(:do_stuff)
-        @user.do_stuff_backgrounded
+        @user.expects(:do_stuff).returns(true)
+        @result = @user.do_stuff_backgrounded
       end
       should "execute method in background" do end #see expectations
+      should 'return nil for backgrounded method' do
+        assert_nil @result
+      end
     end
   end
 

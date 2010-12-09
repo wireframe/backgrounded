@@ -10,6 +10,7 @@ module Backgrounded
         class_eval do
           define_method backgrounded_method do |*args|
             Backgrounded.handler.request(self, method, *args)
+            nil
           end
         end
       end
