@@ -6,3 +6,8 @@ rdoc
 pkg
 *.sqlite3
 *.log
+
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
