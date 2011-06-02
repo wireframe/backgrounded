@@ -6,9 +6,14 @@ require File.join(File.dirname(__FILE__), 'backgrounded', 'handler', 'inprocess_
 Object.send(:include, Backgrounded::ClassMethods)
 
 module Backgrounded
-  mattr_accessor :handler
-  def self.handler
-    @@handler ||= Backgrounded::Handler::InprocessHandler.new
+  class << self
+    attr_accessor :logger, :handler
   end
 end
 
+# default handler to the basic in process handler
+Backgrounded.handler = Backgrounded::Handler::InprocessHandler.new
+
+# configure default logger to standard out with info log level
+Backgrounded.logger = Logger.new STDOUT
+Backgrounded.logger.level = Logger::INFO

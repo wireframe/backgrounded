@@ -64,8 +64,11 @@ class BackgroundedTest < Test::Unit::TestCase
     should 'define backgrounded method' do
       assert @user.respond_to?('do_stuff_backgrounded')
     end
+    should 'define backgrounded_options method' do
+      assert @user.respond_to?('do_stuff_backgrounded_options')
+    end
     should 'save backgrounded options for method' do
-      assert_not_nil User.backgrounded_options[:do_stuff]
+      assert_equal({}, @user.do_stuff_backgrounded_options)
     end
     context 'executing backgrounded method' do
       setup do
@@ -116,8 +119,8 @@ class BackgroundedTest < Test::Unit::TestCase
       @post = Entry.new
     end
     should "setup options for both methods" do
-      assert_not_nil Entry.backgrounded_options[:do_stuff]
-      assert_not_nil Entry.backgrounded_options[:notify_users]
+      assert_equal({}, @post.do_stuff_backgrounded_options)
+      assert_equal({}, @post.notify_users_backgrounded_options)
     end
   end
 
@@ -126,7 +129,7 @@ class BackgroundedTest < Test::Unit::TestCase
       @dog = Dog.new
     end
     should 'save method options for future use' do
-      assert_equal :low, @dog.backgrounded_options[:bark][:priority]
+      assert_equal({:priority => :low}, @dog.bark_backgrounded_options)
     end
   end
 
@@ -134,15 +137,18 @@ class BackgroundedTest < Test::Unit::TestCase
     should 'define backgrounded method' do
       assert Blog.respond_to?('update_info_backgrounded')
     end
+    should 'defined backgrounded_options method' do
+      assert Blog.respond_to?('update_info_backgrounded_options')
+    end
     should 'save backgrounded options for method' do
-      assert_not_nil Blog.backgrounded_options[:update_info]
+      assert_equal({}, Blog.update_info_backgrounded_options)
     end
     context 'invoking backgrounded method' do
-        setup do
-          Blog.expects(:update_info)
-          Blog.update_info_backgrounded
-        end
-        should 'invoke class method' do end #see expectations
+      setup do
+        Blog.expects(:update_info)
+        Blog.update_info_backgrounded
       end
+      should 'invoke class method' do end #see expectations
     end
+  end
 end

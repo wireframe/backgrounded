@@ -7,16 +7,18 @@ module Backgrounded
       methods_with_options.each_pair do |method, options|
         method_basename, punctuation = method.to_s.sub(/([?!=])$/, ''), $1
         backgrounded_method = "#{method_basename}_backgrounded#{punctuation}"
+        backgrounded_options_method = "#{method_basename}_backgrounded_options"
         class_eval do
           define_method backgrounded_method do |*args|
+            Backgrounded.logger.debug("Requesting #{Backgrounded.handler} backgrounded method: #{method} for instance #{self}")
             Backgrounded.handler.request(self, method, *args)
             nil
           end
+          define_method backgrounded_options_method do
+            options
+          end
         end
       end
-      cattr_accessor :backgrounded_options
-      self.backgrounded_options ||= {}
-      self.backgrounded_options.merge! methods_with_options
     end
   end
 end
