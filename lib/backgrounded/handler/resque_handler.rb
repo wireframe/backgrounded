@@ -8,7 +8,7 @@ module Backgrounded
       @@queue = DEFAULT_QUEUE
 
       def request(object, method, *args)
-        options = object.send("#{method.to_s.sub(/([?!=])$/, '')}_backgrounded_options")
+        options = object.send Backgrounded.method_name_for_backgrounded_options(method)
         @@queue = options[:queue] || DEFAULT_QUEUE
         instance, id = instance_identifiers(object)
         Resque.enqueue(ResqueHandler, instance, id, method, *args)

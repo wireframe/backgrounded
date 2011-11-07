@@ -8,6 +8,10 @@ Object.send(:include, Backgrounded::ClassMethods)
 module Backgrounded
   class << self
     attr_accessor :logger, :handler
+    def method_name_for_backgrounded_options(method_name)
+      method_basename, punctuation = method.to_s.sub(/([?!=])$/, ''), $1
+      "#{method_basename}_backgrounded_options"
+    end
   end
 end
 
