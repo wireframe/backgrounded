@@ -23,7 +23,7 @@ module Backgrounded
       private
       def self.find_instance(clazz, id, method)
         clazz = clazz.constantize
-        clazz.respond_to?(method) ? clazz : clazz.find(id)
+        id.to_i == -1 ? clazz : clazz.find(id)
       end
       def instance_identifiers(object)
         instance, id = if object.is_a?(Class) 

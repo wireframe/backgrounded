@@ -3,6 +3,10 @@ require 'backgrounded/handler/resque_handler'
 require 'resque_unit'
 
 ActiveRecord::Schema.define(:version => 1) do
+  create_table :blogs, :force => true do |t|
+    t.column :name, :string
+  end
+
   create_table :users, :force => true do |t|
     t.column :name, :string
   end
@@ -34,6 +38,9 @@ class ResqueHandlerTest < Test::Unit::TestCase
       def do_stuff
       end
     end
+    backgrounded :do_stuff
+    def do_stuff
+    end
   end
 
   context 'when backgrounded is configured with resque' do
@@ -58,6 +65,24 @@ class ResqueHandlerTest < Test::Unit::TestCase
             Resque.run!
           end
           should "invoke method on class" do end #see expectations
+        end
+      end
+      context 'with an instance level backgrounded method of the same name' do
+        setup do
+          @blog = Blog.create
+          @blog.do_stuff_backgrounded
+        end
+        should "enqueue instance method job to resque" do
+          assert_queued Backgrounded::Handler::ResqueHandler, [Blog.to_s, @blog.id, 'do_stuff']
+          assert_equal Backgrounded::Handler::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
+        end
+        context "running background job" do
+          setup do
+            Blog.expects(:do_stuff).never
+            Blog.any_instance.expects(:do_stuff)
+            Resque.run!
+          end
+          should "invoke method on instance" do end #see expectations
         end
       end
     end
