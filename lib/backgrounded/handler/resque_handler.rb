@@ -5,6 +5,7 @@ module Backgrounded
     #enque requests in resque
     class ResqueHandler
       DEFAULT_QUEUE = 'backgrounded'
+      INVALID_ID = -1
       @@queue = DEFAULT_QUEUE
 
       def request(object, method, *args)
@@ -23,11 +24,11 @@ module Backgrounded
       private
       def self.find_instance(clazz, id, method)
         clazz = clazz.constantize
-        id.to_i == -1 ? clazz : clazz.find(id)
+        id.to_i == INVALID_ID ? clazz : clazz.find(id)
       end
       def instance_identifiers(object)
         instance, id = if object.is_a?(Class) 
-          [object.name, -1]
+          [object.name, INVALID_ID]
         else
           [object.class.name, object.id]
         end

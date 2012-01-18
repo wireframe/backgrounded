@@ -1,5 +1,6 @@
 class Backgrounded::Handler::WorklingHandler
   class BackgroundedWorker < Workling::Base
+    INVALID_ID = -1
     def perform(options = {})
       find_instance(options[:class], options[:id], options[:method]).send(options[:method], *options[:params])
     end
@@ -7,7 +8,7 @@ class Backgrounded::Handler::WorklingHandler
     private
     def find_instance(clazz, id, method)
       clazz = clazz.constantize
-      id.to_i == -1 ? clazz : clazz.find(id)
+      id.to_i == INVALID_ID ? clazz : clazz.find(id)
     end
   end
 
@@ -25,7 +26,7 @@ class Backgrounded::Handler::WorklingHandler
   private
   def instance_identifiers(object)
     instance, id = if object.is_a?(Class) 
-      [object.name, -1]
+      [object.name, INVALID_ID]
     else
       [object.class.name, object.id]
     end
