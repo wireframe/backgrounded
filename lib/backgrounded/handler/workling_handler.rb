@@ -7,7 +7,7 @@ class Backgrounded::Handler::WorklingHandler
     private
     def find_instance(clazz, id, method)
       clazz = clazz.constantize
-      clazz.respond_to?(method) ? clazz : clazz.find(id)
+      id.to_i == -1 ? clazz : clazz.find(id)
     end
   end
 
