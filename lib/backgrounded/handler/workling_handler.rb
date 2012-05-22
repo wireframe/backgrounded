@@ -12,7 +12,7 @@ class Backgrounded::Handler::WorklingHandler
     end
   end
 
-  def request(object, method, *args)
+  def request(object, method, args, options={})
     instance, id = instance_identifiers(object)
     options = {
       :class => instance,

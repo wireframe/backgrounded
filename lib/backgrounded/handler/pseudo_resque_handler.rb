@@ -6,7 +6,7 @@ require 'resque'
 module Backgrounded
   module Handler
     class PseudoResqueHandler
-      def request(object, method, *args)
+      def request(object, method, args, options={})
         object.send method, *Resque.decode(Resque.encode(args))
       end
     end
