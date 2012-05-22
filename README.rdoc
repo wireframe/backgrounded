@@ -4,75 +4,35 @@ The cleanest way to integrate background processing into your application.
 
 Backgrounded provides a thin wrapper around any background processing framework that implements the Backgrounded handler API which makes it trivial to swap out processing frameworks with no impact to your code.
 
+This library is an extension which add support for the Resque job processing framework
+see http://github.com/defunkt/resque/
+
 = Features
-* clean and concise API which removes any dependency on external "worker" jobs and allows you to execute any model method in the background
+* support for clean and concise API which removes any dependency on external "worker" jobs and allows you to execute any model method in the background
 * integrates with any background processing framework (DelayedJob, Resque, JobFu, Workling, etc)
 * background methods can be actually unit tested by using an 'in process' runner
 
-= Usage
-
-  #declaration
-  class User
-    backgrounded :do_stuff
-    def do_stuff
-      # do all your work here
-    end
-  end
-
-  #usage
-  user = User.new
-  user.do_stuff_backgrounded
-
 = Installation
-
-Command line installation
-
-  sudo gem install backgrounded
-
-Rails environment.rb configuration
-
-  config.gem 'backgrounded'
 
 Bundler Gemfile configuration
 
-  gem 'backgrounded'
+  gem 'backgrounded-resque'
 
-= Configuration
-
-Backgrounded includes several configurable implementations out of the box for most popular background frameworks.
-If your framework isn't included, it's trivial to write your own implementation.  
-Submit a patch and we may consider it for official distribution!
-
-== DelayedJob
-see http://github.com/tobi/delayed_job/tree/master
-
-  # config/initializers/backgrounded.rb
-  require 'backgrounded/handler/delayed_job_handler'
-  Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
-
-== Resque
-see http://github.com/defunkt/resque/
+Backgrounded Configuration
 
   # config/initializers/backgrounded.rb
   require 'backgrounded/handler/resque_handler'
   Backgrounded.handler = Backgrounded::Handler::ResqueHandler.new
 
-== JobFu
-see http://github.com/jnstq/job_fu/tree
+= Usage
+  user = User.new
 
-  # config/initializers/backgrounded.rb
-  Backgrounded.handler = JobFu::Backgrounded::Handler.new
+  # perform work on the default backgrounded queue
+  user.backgrounded.do_something
 
-== Custom Handlers
-
-  # config/initializers/backgrounded.rb
-  class MyHandler
-    def request(object, method, *args)
-      #process the call however you want!
-    end
-  end
-  Backgrounded.handler = MyHandler.new
+  # perform work on a custom queue
+  user.backgrounded(:queue => 'custom').do_something_else
 
 == Copyright
 
-Copyright (c) 2009 Ryan Sonnek. See LICENSE for details.
+Copyright (c) 2012 Ryan Sonnek. See LICENSE for details.
