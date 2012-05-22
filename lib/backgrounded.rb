@@ -1,7 +1,6 @@
 require 'active_support/all'
 
 require File.join(File.dirname(__FILE__), 'backgrounded', 'handler', 'inprocess_handler')
-require File.join(File.dirname(__FILE__), 'backgrounded', 'proxy')
 require File.join(File.dirname(__FILE__), 'backgrounded', 'concern')
 require File.join(File.dirname(__FILE__), 'backgrounded', 'active_record_extension')
 

@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'proxy')
+
 module Backgrounded
   module Concern
     extend ActiveSupport::Concern
