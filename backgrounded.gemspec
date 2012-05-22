@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Ryan Sonnek"]
   s.email       = ["ryan@codecrate.com"]
   s.homepage    = "http://github.com/wireframe/backgrounded"
-  s.summary     = %q{Simple API to run Model methods in the background}
+  s.summary     = %q{Simple API to perform work in the background}
   s.description = %q{Execute any ActiveRecord Model method in the background}
 
   s.rubyforge_project = "backgrounded"
