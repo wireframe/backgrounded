@@ -11,27 +11,21 @@ Backgrounded provides a thin wrapper around any background processing framework 
 
 = Usage
 
-  #declaration
   class User
-    backgrounded :do_stuff
     def do_stuff
-      # do all your work here
+    end
+    def self.do_something_else
     end
   end
 
-  #usage
   user = User.new
-  user.do_stuff_backgrounded
+  # execute instance method in background
+  user.backgrounded.do_stuff
+
+  # execute class method in background
+  User.backgrounded.do_something_else
 
 = Installation
-
-Command line installation
-
-  sudo gem install backgrounded
-
-Rails environment.rb configuration
-
-  config.gem 'backgrounded'
 
 Bundler Gemfile configuration
 
@@ -39,29 +33,13 @@ Bundler Gemfile configuration
 
 = Configuration
 
-Backgrounded includes several configurable implementations out of the box for most popular background frameworks.
-If your framework isn't included, it's trivial to write your own implementation.  
-Submit a patch and we may consider it for official distribution!
-
-== DelayedJob
-see http://github.com/tobi/delayed_job/tree/master
-
-  # config/initializers/backgrounded.rb
-  require 'backgrounded/handler/delayed_job_handler'
-  Backgrounded.handler = Backgrounded::Handler::DelayedJobHandler.new
+Backgrounded packages handlers for popular frameworks in separate gems.  Just drop in the gem for your particular framework or write your own!
 
 == Resque
-see http://github.com/defunkt/resque/
-
-  # config/initializers/backgrounded.rb
-  require 'backgrounded/handler/resque_handler'
-  Backgrounded.handler = Backgrounded::Handler::ResqueHandler.new
+see http://github.com/wireframe/backgrounded-resque
 
 == JobFu
 see http://github.com/jnstq/job_fu/tree
-
-  # config/initializers/backgrounded.rb
-  Backgrounded.handler = JobFu::Backgrounded::Handler.new
 
 == Custom Handlers
 
@@ -75,4 +53,4 @@ see http://github.com/jnstq/job_fu/tree
 
 == Copyright
 
-Copyright (c) 2009 Ryan Sonnek. See LICENSE for details.
+Copyright (c) 2012 Ryan Sonnek. See LICENSE for details.
