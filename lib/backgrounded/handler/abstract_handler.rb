@@ -1,10 +1,10 @@
 module Backgrounded
   module Handler
     class AbstractHandler
-      attr_accessor :options
+      attr_writer :options
 
       def options
-        self.options || {}
+        @options ||= {}
       end
     end
   end
