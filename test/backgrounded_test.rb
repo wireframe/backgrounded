@@ -35,11 +35,10 @@ class BackgroundedTest < Test::Unit::TestCase
     end
     context 'invoking with options' do
       setup do
+        Backgrounded.handler.expects(:options=).with(:priority => :high)
         @result = User.backgrounded(:priority => :high)
       end
-      should 'initialize proxy with options' do
-        assert_equal({:priority => :high}, @result.instance_variable_get(:@options))
-      end
+      should 'pass options onto Backgrounded.handler' do end # see expectations
     end
   end
 end

@@ -36,14 +36,5 @@ class ProxyTest < Test::Unit::TestCase
       end
       should "execute method on delegate" do end #see expectations
     end
-    context 'context when proxy is configured with options' do
-      setup do
-        Backgrounded.handler.expects(:request).with(anything, anything, anything, {:priority => :high})
-        @delegate = User
-        @proxy = Backgrounded::Proxy.new @delegate, :priority => :high
-        @proxy.do_something_else
-      end
-      should 'pass options onto Backgrounded.handler' do end # see expectations
-    end
   end
 end

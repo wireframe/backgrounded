@@ -27,11 +27,11 @@ class ActiveRecordExtensionTest < Test::Unit::TestCase
     end
     context 'when callback has :backgrounded options' do
       setup do
-        Backgrounded.handler.expects(:request).with(anything, anything, anything, {:priority => :high})
+        Backgrounded.handler.expects(:options=).with(:priority => :high)
         @user = User.new
         @user.save
       end
-      should 'pass options onto the Backgrounded::Handler#request method' do end # see expectations
+      should 'pass configure Backgrounded.handler.options' do end # see expectations
     end
   end
 end
