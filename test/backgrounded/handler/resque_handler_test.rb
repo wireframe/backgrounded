@@ -43,6 +43,14 @@ class ResqueHandlerTest < Test::Unit::TestCase
     end
   end
 
+  module Foo
+    class << self
+      backgrounded :bar
+      def bar
+      end
+    end
+  end
+
   context 'when backgrounded is configured with resque' do
     setup do
       Resque.reset!
@@ -120,6 +128,25 @@ class ResqueHandlerTest < Test::Unit::TestCase
             assert_equal 'important', Resque.queue_from_class(Backgrounded::Handler::ResqueHandler)
             assert_equal 1, Resque.queue('important').length
           end
+        end
+      end
+    end
+
+    context 'with a module backgrounded class method' do
+      context 'when invoking class method backgrounded' do
+        setup do
+          Foo.bar_backgrounded
+        end
+        should "enqueue job to resque" do
+          assert_queued Backgrounded::Resque::ResqueHandler, [Foo.to_s, -1, 'bar']
+          assert_equal Backgrounded::Resque::ResqueHandler::DEFAULT_QUEUE, Resque.queue_from_class(Backgrounded::Resque::ResqueHandler)
+        end
+        context 'when processing job' do
+          setup do
+            Foo.expects(:bar)
+            Resque.run!
+          end
+          should 'invoke module class method backgrounded' do end # see expectations
         end
       end
     end
