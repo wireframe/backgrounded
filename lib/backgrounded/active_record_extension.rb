@@ -9,8 +9,9 @@ module Backgrounded
       # @option options [Hash] :backgrounded (optional) options to pass into the backgrounded handler
       # @see after_commit
       def after_commit_backgrounded(method_name, options={})
-        backgrounded_options = options.delete :backgrounded
-        after_commit Proc.new {|o| o.backgrounded(backgrounded_options).send(method_name) }, options
+        self.after_commit options.except(:backgrounded) do |instance|
+          instance.backgrounded(options[:backgrounded]).send(method_name)
+        end
       end
     end
   end

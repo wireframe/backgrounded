@@ -28,7 +28,7 @@ Backgrounded provides a thin wrapper around any background processing framework 
 
 = after_commit_backgrounded Callback
 
-Automatically execute a callback in the background after a model has been saved to the database.  All of the standard after_commit options are 
+Automatically execute a callback in the background after a model has been saved to the database.  All of the standard after_commit options are
 available as well as an optional :backgrounded option which will be passed to the Backgrounded::Handler.
 
   class User < ActiveRecord::Base
@@ -48,7 +48,7 @@ Bundler Gemfile configuration
 
 = Configuration
 
-Backgrounded packages handlers for popular frameworks in separate gems.  Just drop in the gem for your particular framework or write your own!
+Backgrounded handlers are available for popular libraries in separate gems.  Just drop in the gem for your particular framework or write your own!
 
 == Resque
 see http://github.com/wireframe/backgrounded-resque
@@ -57,11 +57,16 @@ see http://github.com/wireframe/backgrounded-resque
 see http://github.com/jnstq/job_fu/tree
 
 == Custom Handlers
+Writing a custom handler is as simple as:
 
   # config/initializers/backgrounded.rb
   class MyHandler
-    def request(object, method, *args)
-      #process the call however you want!
+    # @param object is the target object to invoke the method upon
+    # @param method is the requested method to call
+    # @param args is the optional list of arguments to pass to the method
+    # @param options is the optional hash of options passed to the backgrounded call
+    def request(object, method, args, options={})
+      # process the call however you want!
     end
   end
   Backgrounded.handler = MyHandler.new

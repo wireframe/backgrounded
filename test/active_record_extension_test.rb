@@ -17,21 +17,21 @@ class ActiveRecordExtensionTest < Test::Unit::TestCase
     should 'be defined on ActiveRecord::Base' do
       assert ActiveRecord::Base.respond_to?(:after_commit_backgrounded)
     end
-    context 'when using default options' do
+    context 'without options' do
       setup do
         @blog = Blog.new
-        @blog.expects(:do_something_else)
-        @blog.save
+        Backgrounded.handler.expects(:request).with(@blog, :do_something_else, [], {})
+        @blog.save!
       end
-      should 'execute callbacks' do end # see expectations
+      should 'invoke Backgrounded.handler with no options' do end # see expectations
     end
-    context 'when callback has :backgrounded options' do
+    context 'with options[:backgrounded]' do
       setup do
-        Backgrounded.handler.expects(:options=).with(:priority => :high)
         @user = User.new
-        @user.save
+        Backgrounded.handler.expects(:request).with(@user, :do_stuff, [], {:priority => :high})
+        @user.save!
       end
-      should 'pass configure Backgrounded.handler.options' do end # see expectations
+      should 'pass options[:backgrounded] to Backgrounded.handler' do end # see expectations
     end
   end
 end

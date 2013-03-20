@@ -9,6 +9,7 @@ rescue Bundler::BundlerError => e
 end
 require 'test/unit'
 require 'shoulda'
+require 'pry'
 require 'mocha'
 require 'active_record'
 

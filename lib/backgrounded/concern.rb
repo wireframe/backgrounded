@@ -7,15 +7,13 @@ module Backgrounded
     module ClassMethods
       # @see Backgrounded::Concern#backgrounded
       def backgrounded(options={})
-        Backgrounded.handler.options = options
-        Backgrounded::Proxy.new self
+        Backgrounded::Proxy.new self, options
       end
     end
 
     # @param options (optional) options to pass into the backgrounded handler
     def backgrounded(options={})
-      Backgrounded.handler.options = options
-      Backgrounded::Proxy.new self
+      Backgrounded::Proxy.new self, options
     end
   end
 end
