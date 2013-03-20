@@ -5,7 +5,7 @@ module Backgrounded
     #simple handler to process synchronously and not actually in the background
     #useful for testing
     class InprocessHandler < AbstractHandler
-      def request(object, method, args, options={})
+      def request(object, method, args)
         object.send method, *args
       end
     end
