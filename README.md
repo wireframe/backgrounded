@@ -82,7 +82,11 @@ Writing a custom handler is as simple as:
         # process the call however you want!
       end
     end
-    Backgrounded.handler = MyHandler.new
+
+    # configure backgrounded to use your handler like so:
+    Backgrounded.configure do |config|
+      config.handler = MyHandler.new
+    end
 
 ## Copyright
 

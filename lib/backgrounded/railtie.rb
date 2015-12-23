@@ -1,4 +1,4 @@
-require_relative 'backgrounded/active_record_extension'
+require_relative 'active_record_extension'
 
 module Backgrounded
   class Railtie < Rails::Railtie
