@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'proxy')
+require_relative 'proxy'
 
 module Backgrounded
   module Concern

@@ -1,18 +1,28 @@
-require 'active_support/all'
-
-require File.join(File.dirname(__FILE__), 'backgrounded', 'handler', 'inprocess_handler')
-require File.join(File.dirname(__FILE__), 'backgrounded', 'concern')
-require File.join(File.dirname(__FILE__), 'backgrounded', 'active_record_extension')
+require_relative 'backgrounded/handler/inprocess_handler'
+require_relative 'backgrounded/concern'
+require_relative 'backgrounded/active_record_extension'
 
 module Backgrounded
   class << self
     attr_accessor :logger, :handler
+
+    def configure
+      yield configuration
+    end
+
+    def configuration
+      self
+    end
   end
 end
 
-# default handler to the basic in process handler
-Backgrounded.handler = Backgrounded::Handler::InprocessHandler.new
+# default library configuration
+Backgrounded.configure do |config|
+  # default handler to the basic in process handler
+  config.handler = Backgrounded::Handler::InprocessHandler.new
 
-# configure default logger to standard out with info log level
-Backgrounded.logger = Logger.new STDOUT
-Backgrounded.logger.level = Logger::INFO
+  # configure default logger to standard out with info log level
+  logger = Logger.new(STDOUT)
+  loggerl.evel = Logger::INFO
+  config.logger = logger
+end

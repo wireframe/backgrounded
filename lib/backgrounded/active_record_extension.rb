@@ -1,4 +1,5 @@
 require 'active_record/base'
+require 'active_support/concern'
 
 module Backgrounded
   module ActiveRecordExtension
@@ -16,4 +17,7 @@ module Backgrounded
     end
   end
 end
-ActiveRecord::Base.send(:include, Backgrounded::ActiveRecordExtension)
+
+ActiveSupport.on_load(:active_record) do
+  include Backgrounded::ActiveRecordExtension
+end
