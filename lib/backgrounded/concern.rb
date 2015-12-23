@@ -1,3 +1,4 @@
+require 'active_support/concern'
 require_relative 'proxy'
 
 module Backgrounded

@@ -1,6 +1,7 @@
+require 'logger'
 require_relative 'backgrounded/handler/inprocess_handler'
 require_relative 'backgrounded/concern'
-require_relative 'backgrounded/active_record_extension'
+require_relative 'backgrounded/railtie' if defined?(Rails)
 
 module Backgrounded
   class << self
@@ -23,6 +24,6 @@ Backgrounded.configure do |config|
 
   # configure default logger to standard out with info log level
   logger = Logger.new(STDOUT)
-  loggerl.evel = Logger::INFO
+  logger.level = Logger::INFO
   config.logger = logger
 end
