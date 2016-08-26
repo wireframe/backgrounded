@@ -1,6 +1,7 @@
 require 'logger'
 require_relative 'backgrounded/handler/inprocess_handler'
 require_relative 'backgrounded/object_extensions'
+require_relative 'backgrounded/active_record_extension'
 require_relative 'backgrounded/railtie' if defined?(Rails)
 
 module Backgrounded

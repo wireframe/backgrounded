@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'rails'
 require 'active_record'
+require 'yaml'
 require_relative 'support/setup_database'
 require 'backgrounded'
 
